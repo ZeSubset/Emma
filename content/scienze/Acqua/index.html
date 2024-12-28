@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <!-- Specifies UTF-8 character encoding for proper text rendering -->
+    <meta charset="UTF-8" />
+    <!-- Makes the page responsive on all devices by setting the viewport properties -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Sets the title of the page, displayed in the browser tab -->
+    <title>L’Acqua e le Sue Caratteristiche</title>
+    <!-- Links to the external CSS stylesheet for consistent styling -->
+    <link rel="stylesheet" href="../../../css/style.css" />
+  </head>
+  <body>
+    <!-- Header section containing the title, subtitle, and scoreboard -->
+    <header>
+      <!-- Dynamic title that can be updated via JavaScript -->
+      <h1 id="title"></h1>
+      <!-- Dynamic subtitle for the page -->
+      <p id="subtitle"></p>
+      <!-- Scoreboard displaying the user's score -->
+      <div id="scoreboard">
+        Punteggio: <span id="score">0</span>
+      </div>
+    </header>
+
+    <main class="grid-container">
+      <!-- Right column for text and quiz -->
+      <section class="column right">
+        <!-- Dynamic main heading updated via JavaScript -->
+        <h2 id="main-heading"></h2>
+        <!-- Placeholder for dynamically inserted main text content -->
+        <div id="main-text"></div>
+
+        <!-- Quiz section with heading and container -->
+        <h2 id="quiz-heading">Quiz</h2>
+        <div id="quiz-container"></div>
+        <!-- Scoreboard commented out here to avoid duplication -->
+        <!-- <div id="scoreboard">Punteggio: <span id="score">0</span></div> -->
+      </section>
+
+      <!-- Left column for images -->
+      <section class="column left">
+        <!-- First image container -->
+        <div class="image-container" style="text-align: center;">
+          <img
+            src="fig/Screenshot 2024-12-26 123711.png"
+            alt="Carta delle Alpi"
+            width="600px"
+            
+          />
+        </div>
+        
+      </section>
+    </main>
+
+    <!-- Footer section with additional text or credits -->
+    <footer>
+      
+    </footer>
+
+    <!-- Link to the external JavaScript file for dynamic content and interactivity -->
+    <script src="../../../scripts/script.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

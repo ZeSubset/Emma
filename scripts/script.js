@@ -1,4 +1,4 @@
-// Function to load content dynamically into the page
+// Function to load content dynamically into the page. This function will be called when the page is loaded.
 async function loadContent(content) {
     // Sets the title and subtitle using the content object
     document.getElementById("title").innerHTML = content.title; // Use innerHTML for markup
@@ -53,6 +53,8 @@ async function loadContent(content) {
       const buttons = questionDiv.querySelectorAll("button");
       buttons.forEach((btn) => (btn.disabled = true));
     } else {
+      score = 0; // Increase score for correct answers
+      updateScore(); // Update the score display
       resultDiv.innerHTML =
         "<p style='color:red;'>Risposta sbagliata. Riprova!</p>"; // Show error message
   
@@ -83,6 +85,19 @@ async function loadContent(content) {
     const buttons = questionDiv.querySelectorAll("button");
     buttons.forEach((btn) => {
       btn.disabled = false; // Enable buttons
+    });
+
+    enableAllButtons(); // Re-enable all buttons
+  }
+
+  // Function to re-enable all buttons in all questionDiv elements
+  function enableAllButtons() {
+    const questionDivs = document.querySelectorAll(".question");
+    questionDivs.forEach((questionDiv) => {
+      const buttons = questionDiv.querySelectorAll("button");
+      buttons.forEach((button) => {
+        button.disabled = false;
+      });
     });
   }
   

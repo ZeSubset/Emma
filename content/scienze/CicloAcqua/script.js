@@ -2,60 +2,58 @@ let score = 0; // Global score variable
 
 // Content object storing all the dynamic content for the page
 const content = {
-  "title": "L’Acqua e le Sue Caratteristiche",
-  "subtitle": "Scopri le caratteristiche dell'acqua e i suoi stati fisici.",
+  "title": "Il Ciclo dell’Acqua",
+  "subtitle": "Scopri come l’acqua passa da uno stato all’altro nel suo ciclo continuo.",
   "mainText": {
-    "heading": "L’Acqua e le Sue Caratteristiche",
+    "heading": "Il Ciclo dell’Acqua",
     "text": [
-      "L’acqua in natura esiste allo stato <strong>liquido</strong>, <strong>solido</strong> e <strong>aeriforme/gassoso</strong>.",
-      "L’acqua è allo stato <strong>liquido</strong> nel mare, nei fiumi, nei laghi.",
-      "L’acqua è allo stato <strong>solido</strong> nel ghiaccio e nella neve.",
-      "L’acqua è allo stato <strong>aeriforme/gassoso</strong> nel vapore acqueo.",
-      "L’acqua ha delle <strong>caratteristiche particolari</strong>:",
-      "<ul><li>Non ha colore ed è <strong>trasparente</strong>.</li><li>Non ha odore e non ha sapore.</li><li>Scioglie molte sostanze diverse.</li></ul>",
-      "Sulla superficie dell’acqua le molecole si attraggono moltissimo l’una con l’altra e formano una specie di <strong>pellicola</strong>. Questo fenomeno si chiama <strong>tensione superficiale</strong>: è ciò che consente agli insetti di camminare sull’acqua e alle gocce di rimanere integre.",
-      "L’acqua è capace di <strong>arrampicarsi</strong> verso l’alto quando si trova in tubicini sottili, come nelle piante: è così che le radici assorbono l’acqua dal terreno e la fanno arrivare alle foglie."
+      "Sulla Terra l’acqua compie un ciclo continuo. Durante questo ciclo, che non ha pause e non ha fine, l’acqua passa da uno stato all’altro. <strong>Vediamo come</strong>.",
+      "1. Il Sole riscalda l’acqua di mari, fiumi e laghi. L’acqua diventa <strong>vapore acqueo</strong> e sale. Il passaggio dallo stato liquido allo stato aeriforme si chiama <strong>evaporazione</strong>.",
+      "2. In alto il vapore si <strong>raffredda</strong> e si trasforma di nuovo in gocce di acqua, che formano le <strong>nuvole</strong>. Il passaggio dallo stato aeriforme allo stato liquido si chiama <strong>condensazione</strong>.",
+      "3. Le gocce nelle nuvole si uniscono tra loro e diventano più grandi e pesanti; cadono al suolo sotto forma di <strong>pioggia</strong>.",
+      "4. Se fa molto freddo le gocce si trasformano in <strong>neve</strong> o <strong>grandine</strong>. Il passaggio dallo stato liquido allo stato solido si chiama <strong>solidificazione</strong>.",
+      "5. L’acqua che si deposita sotto forma di ghiaccio si scioglie quando fa più caldo. Questo passaggio si chiama <strong>fusione</strong>. Le acque di pioggia finiscono nei laghi, nei fiumi, nei mari o penetrano nel terreno. E il ciclo ricomincia."
     ]
   },
   "quiz": [
     {
-      "question": "In quale stato l’acqua si trova nei fiumi e nei mari?",
+      "question": "Come si chiama il passaggio dallo stato liquido allo stato aeriforme?",
       "answers": [
-        { "text": "Liquido", "correct": true },
-        { "text": "Solido", "correct": false },
-        { "text": "Aeriforme/gassoso", "correct": false }
+        { "text": "Evaporazione", "correct": true },
+        { "text": "Condensazione", "correct": false },
+        { "text": "Solidificazione", "correct": false }
       ]
     },
     {
-      "question": "Che cos’è la tensione superficiale dell’acqua?",
+      "question": "Che cosa accade durante la condensazione?",
       "answers": [
-        { "text": "Un fenomeno che permette agli insetti di camminare sull’acqua.", "correct": true },
-        { "text": "La capacità dell’acqua di arrampicarsi nei tubi.", "correct": false },
-        { "text": "Lo stato aeriforme/gassoso dell’acqua.", "correct": false }
+        { "text": "Il vapore si raffredda e diventa gocce di acqua.", "correct": true },
+        { "text": "L’acqua diventa vapore acqueo.", "correct": false },
+        { "text": "Le gocce si trasformano in neve.", "correct": false }
       ]
     },
     {
-      "question": "Come si chiama lo stato solido dell’acqua?",
+      "question": "Come si chiama il passaggio dallo stato liquido allo stato solido?",
       "answers": [
-        { "text": "Ghiaccio", "correct": true },
-        { "text": "Vapore acqueo", "correct": false },
-        { "text": "Liquido", "correct": false }
+        { "text": "Solidificazione", "correct": true },
+        { "text": "Evaporazione", "correct": false },
+        { "text": "Fusione", "correct": false }
       ]
     },
     {
-      "question": "Quale caratteristica rende l’acqua trasparente?",
+      "question": "Cosa succede quando il ghiaccio si scioglie?",
       "answers": [
-        { "text": "Non ha colore.", "correct": true },
-        { "text": "Non ha odore.", "correct": false },
-        { "text": "Non ha sapore.", "correct": false }
+        { "text": "Avviene la fusione.", "correct": true },
+        { "text": "Avviene l’evaporazione.", "correct": false },
+        { "text": "Avviene la condensazione.", "correct": false }
       ]
     },
     {
-      "question": "Come fanno le piante ad assorbire l’acqua dal terreno?",
+      "question": "Come si chiama il passaggio dallo stato aeriforme allo stato liquido?",
       "answers": [
-        { "text": "Grazie alle radici e alla capacità dell’acqua di arrampicarsi nei tubicini sottili.", "correct": true },
-        { "text": "Grazie alla tensione superficiale.", "correct": false },
-        { "text": "Attraverso il vapore acqueo nell’aria.", "correct": false }
+        { "text": "Condensazione", "correct": true },
+        { "text": "Solidificazione", "correct": false },
+        { "text": "Fusione", "correct": false }
       ]
     }
   ]

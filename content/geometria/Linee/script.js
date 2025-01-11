@@ -37,14 +37,14 @@ const content = {
     ]
   },
   "quiz": [
-    {
-      "question": "Che cos’è una retta?",
-      "answers": [
-        { "text": "Una linea che non ha un inizio né una fine.", "correct": true },
-        { "text": "Una linea che ha un inizio e una fine.", "correct": false },
-        { "text": "Una linea che ha un inizio ma non una fine.", "correct": false }
-      ]
-    },
+    // {
+    //   "question": "Che cos’è una retta?",
+    //   "answers": [
+    //     { "text": "Una linea che non ha un inizio né una fine.", "correct": true },
+    //     { "text": "Una linea che ha un inizio e una fine.", "correct": false },
+    //     { "text": "Una linea che ha un inizio ma non una fine.", "correct": false }
+    //   ]
+    // },
     {
       "question": "Che cos’è un segmento?",
       "answers": [
@@ -71,15 +71,15 @@ const content = {
         { "text": "Si incontrano in un punto.", "correct": false }
       ]
     },
-    {
-      "question": "Che cos’è una semiretta?",
-      "answers": [
+    // {
+    //   "question": "Che cos’è una semiretta?",
+    //   "answers": [
         
-        { "text": "Una linea che ha un inizio e una fine.", "correct": false },
-        { "text": "Una linea che non ha un inizio né una fine.", "correct": false },
-        { "text": "Una linea che ha un inizio ma non una fine.", "correct": true },
-      ]
-    }
+    //     { "text": "Una linea che ha un inizio e una fine.", "correct": false },
+    //     { "text": "Una linea che non ha un inizio né una fine.", "correct": false },
+    //     { "text": "Una linea che ha un inizio ma non una fine.", "correct": true },
+    //   ]
+    // }
   ]
 }
 

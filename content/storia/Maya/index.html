@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.css"> 
-    <link rel="stylesheet" href="style.css"> <!-- Custom Styles -->
+    <link rel="stylesheet" href="../../../css/style_reveal.css"> <!-- Custom Styles -->
 </head>
 <body>
 
@@ -23,7 +23,7 @@
     <!-- Right Side: Second Reveal.js instance -->
     <div class="right-panel">
         <div class="reveal" id="reveal-right">
-            <img src="fig/DALL·E 2025-01-31 17.49.31 - An ancient Mayan city with towering stone pyramids, intricate carvings on the walls, and dense jungle surrounding the ruins. The scene is bathed in wa.jpg" alt="Mayan City"
+            <img src="fig/DALL·E 2025-01-31 18.06.07 - A cartoon-style illustration of an ancient Mayan city with towering stone pyramids, colorful decorations, and friendly Mayan people in traditional att.jpg" alt="Mayan City"
              style="width: 100%; height: 100%; object-fit: cover;">
         
             <div class="slides" id="slides-container-right"></div>
@@ -39,107 +39,15 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
 <script src="content.js"></script>
-<script>
-    function renderSlidesLeft() {
-        const container = document.getElementById("slides-container-left");
-        
-        let html = `
-            <section>
-                <h1>${content.titolo.titolo}</h1>
-                <p>${content.titolo.descrizione}</p>
-            </section>
-        `;
+<script src="../../../scripts/script_reveal.js"></script>
+    <script>
+        let score = 0;
+        renderSlidesLeft();
+        renderSlidesRight();
+        leftReveal.initialize();
+        rightReveal.initialize();
 
-        content.sezioni.forEach(sec => {
-            html += `
-                <section>
-                    <h2>${sec.titolo}</h2>
-                    <p>${sec.descrizione}</p>
-                    ${sec.extra ? `<p>${sec.extra}</p>` : ""}
-                </section>
-            `;
-        });
-
-        
-
-        html += `
-            <section>
-                <h2>${content.conclusione.titolo}</h2>
-                <p>${content.conclusione.descrizione}</p>
-            </section>
-        `;
-
-        container.innerHTML = html;
-    }
-
-    function renderSlidesRight() {
-        const container = document.getElementById("slides-container-right");
-        
-        let html = `
-        `;
-
-        
-        content.quiz.forEach(qz => {
-            html += `
-                <section>
-                    <div class="quiz-box"> <h2 >${qz.domanda}</h2> </div>
-                    <div class="quiz-container">
-                        ${qz.risposte.map(r => `
-                            <button class="quiz-button" onclick="checkAnswer(this, ${r.corretto})">${r.testo}</button>
-                        `).join('')}
-                    </div>
-                </section>
-            `;
-        });
-
-        
-
-        container.innerHTML = html;
-    }
-
-
-    // function updateRightPanel(text) {
-    //     document.getElementById("dynamic-content").innerHTML = `<p>${text}</p>`;
-    // }
-
-    let score = 0;
-    function checkAnswer(button, isCorrect) {
-        if (button.disabled) return;
-
-        button.style.backgroundColor = isCorrect ? "green" : "red";
-        button.innerText += isCorrect ? " ✔ Corretto!" : " ✖ Sbagliato!";
-       
-        if (isCorrect) score += 2;
-        button.disabled = true;
-        button.style.color = "white";
-        updateScore();
-    }
-
-    function updateScore() {
-        document.getElementById("score").innerText = "Punteggio: " + score;
-    }
-
-    renderSlidesLeft();
-    renderSlidesRight();
-    // Reveal.initialize();
-    const leftReveal = new Reveal(document.querySelector("#reveal-left"), {
-        controls: true,
-        progress: true,
-        history: false,
-        center: true
-    });
-
-    const rightReveal = new Reveal(document.querySelector("#reveal-right"), {
-        controls: true,
-        progress: true,
-        history: false,
-        center: true
-    });
-
-    leftReveal.initialize();
-    rightReveal.initialize();
-
-</script>
+    </script>
 
 </body>
 </html>

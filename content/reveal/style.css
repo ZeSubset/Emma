@@ -1,0 +1,134 @@
+/* Full Page Layout */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Container that holds both panels */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Left Panel (Reveal.js Instance 1) */
+.left-panel {
+    width: 50%;
+    border-right: 2px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Right Panel (Reveal.js Instance 2) */
+.right-panel {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style each Reveal.js instance */
+.reveal {
+    width: 90%;
+    height: 90%;
+}
+
+
+/* Full Page Layout */
+/* body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+} */
+
+/* Main container with flexbox */
+/* .container {
+    display: flex;
+    height: 100vh;
+} */
+
+/* Left Side - Reveal.js Slides */
+/* .reveal {
+    width: 70%;
+    height: 100%;
+    overflow: hidden;
+    border-right: 2px solid #ddd;
+} */
+
+/* Right Side - Extra Information Panel */
+/* .side-panel {
+    width: 30%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+    text-align: left;
+} */
+
+/* .side-panel h2 {
+    color: #005f99;
+    font-weight: bold;
+} */
+
+/* Stile per il punteggio */
+#score {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "Source Sans Pro", sans-serif; /* Same as Reveal.js H1 */
+    font-size: 2.5rem; /* Similar to H1 */
+    font-weight: bold;
+    color: #007acc;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #007acc;
+}
+
+/* Quiz Buttons */
+.quiz-container {
+    text-align: center;
+}
+
+.quiz-button {
+    font-size: 3rem;
+    padding: 12px;
+    width: 80%;
+    margin: 10px auto;
+    border: 2px solid #007acc;
+    cursor: pointer;
+    display: block;
+    border-radius: 10px;
+    transition: 0.3s;
+    background-color: #ffffff;
+    color: #007acc;
+}
+
+.quiz-box {
+    display: block;
+    width: 80%;
+    margin: 10px auto;
+    padding: 15px;
+    /* font-size: 1.5rem; */
+    text-align: center;
+    background-color: #f0f0f0; /* Light gray */
+    border: 2px solid #007acc; /* Azzurro border */
+    border-radius: 10px;
+    font-weight: bold;
+    color: #007acc;
+}
+
+.quiz-button:hover {
+    background-color: #007acc;
+    color: white;
+}
+
+/* Highlight Important Text */
+.important {
+    color: #c0392b;
+    font-weight: bold;
+}

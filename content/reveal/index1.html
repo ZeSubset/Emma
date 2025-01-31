@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal.js - Dual Panels</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/white.css">
+    <link rel="stylesheet" href="style1.css"> <!-- Custom styles -->
+</head>
+<body>
+
+<div class="container">
+    <!-- Left Side: First Reveal.js instance -->
+    <div class="left-panel">
+        <div class="reveal" id="reveal-left">
+            <div class="slides">
+                <section>
+                    <h2>Sezione 1</h2>
+                    <p>Questa è la prima slide del lato sinistro.</p>
+                </section>
+                <section>
+                    <h2>Slide 2</h2>
+                    <p>Seconda slide del lato sinistro.</p>
+                </section>
+                <section>
+                    <h2>Slide 3</h2>
+                    <p>Terza slide del lato sinistro.</p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Side: Second Reveal.js instance -->
+    <div class="right-panel">
+        <div class="reveal" id="reveal-right">
+            <div class="slides">
+                <section>
+                    <h2>Sezione A</h2>
+                    <p>Questa è la prima slide del lato destro.</p>
+                </section>
+                <section>
+                    <h2>Slide B</h2>
+                    <p>Seconda slide del lato destro.</p>
+                </section>
+                <section>
+                    <h2>Slide C</h2>
+                    <p>Terza slide del lato destro.</p>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+<script>
+    // Initialize Reveal.js on both panels separately
+    const leftReveal = new Reveal(document.querySelector("#reveal-left"), {
+        controls: true,
+        progress: true,
+        history: false,
+        center: true
+    });
+
+    const rightReveal = new Reveal(document.querySelector("#reveal-right"), {
+        controls: true,
+        progress: true,
+        history: false,
+        center: true
+    });
+
+    leftReveal.initialize();
+    rightReveal.initialize();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+/* Full Page Layout */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Container that holds both panels */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Left Panel (Reveal.js Instance 1) */
+.left-panel {
+    width: 50%;
+    border-right: 2px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Right Panel (Reveal.js Instance 2) */
+.right-panel {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style each Reveal.js instance */
+.reveal {
+    width: 90%;
+    height: 90%;
+}

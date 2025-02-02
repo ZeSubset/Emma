@@ -30,6 +30,7 @@ function renderSlidesLeft() {
                 <h2>${sec.titolo}</h2>
                 <p>${sec.descrizione}</p>
                 ${sec.extra ? `<p>${sec.extra}</p>` : ""}
+    
             </section>
         `;
     });
@@ -84,4 +85,25 @@ const rightReveal = new Reveal(document.querySelector("#reveal-right"), {
     progress: true,
     history: false,
     center: true
+});
+
+function resetSlideScrolling(slide) {
+    slide.classList.remove('scrollable-slide');
+}
+
+function handleSlideScrolling(slide) {
+    if (slide.scrollHeight >= 800) {
+        slide.classList.add('scrollable-slide');
+    }
+}
+
+leftReveal.addEventListener('ready', function (event) {
+    handleSlideScrolling(event.currentSlide);
+});
+
+leftReveal.addEventListener('slidechanged', function (event) {
+    if (event.previousSlide) {
+        resetSlideScrolling(event.previousSlide);
+    }
+    handleSlideScrolling(event.currentSlide);
 });

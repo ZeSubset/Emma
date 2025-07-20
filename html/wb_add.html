@@ -25,6 +25,9 @@
             /* ↔ Grid bg picker   */
             --dot: 22px;
             --gap: 4px;
+            /* tiny gap between normal dots      */
+            --biggap: 12px;
+            /* extra gap after the 5th row/col   */
         }
 
         /* —— basic reset —— */
@@ -115,10 +118,10 @@
 
         .num-box,
         input.num-box {
-            min-width: 64px;
+            /* min-width: 34px; */
             padding: 6px 0;
             border-radius: 8px;
-            color: #fff;
+            color: #000000;
             font-weight: 800;
             font-size: calc(var(--fs)*0.9);
             text-align: center;
@@ -127,7 +130,7 @@
         }
 
         input.num-box {
-            width: 72px
+            width: calc(var(--fs) * 2.5);
         }
 
         .num-a {
@@ -145,13 +148,13 @@
             color: #222
         }
 
-        .answer {
+        /* .answer {
             background: #ddd;
             min-width: 90px;
             height: 38px;
             border-radius: 8px;
             margin-left: 6px
-        }
+        } */
 
         /* grid + numbers */
         /* replace the old .grid-wrap block */
@@ -189,19 +192,37 @@
             color: #444;
         }
 
-        .grid {
-            /* existing rules ↓ */
-            display: grid;
+        /* .grid { */
+        /* existing rules ↓ */
+        /* display: grid;
             grid-template-columns: repeat(10, var(--dot));
             grid-gap: var(--gap);
             background: var(--grid-bg);
             padding: 10px;
             border-radius: 12px;
-            justify-content: center;
+            justify-content: center; */
 
-            /* NEW: keep the whole grid no wider than 260 px */
-            max-width: 260px;
-            /* tweak until it matches your equation strip */
+        /* NEW: keep the whole grid no wider than 260 px */
+        /* max-width: 260px; */
+        /* tweak until it matches your equation strip */
+        /* } */
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(11, var(--dot));
+            /* 11 not 10 */
+            grid-gap: var(--gap);
+            background: var(--grid-bg);
+            padding: 10px;
+            border-radius: 12px;
+            justify-content: center;
+        }
+
+        /* invisible spacer cell */
+        .dot.spacer {
+            border: none;
+            background: transparent;
+            pointer-events: none;
         }
 
         .dot {
@@ -226,6 +247,25 @@
             cursor: pointer
         }
 
+        /* extra margins are dot-specific, so use classes */
+        /* .dot.gapR {
+            margin-right: var(--biggap);
+        }
+
+        .dot.gapB {
+            margin-bottom: var(--biggap);
+        } */
+
+        /* extra gap after the 5th column (vertical bar) */
+        .dot.gapR {
+            margin-right: var(--biggap, 12px);
+        }
+
+        /* extra gap after the 5th row  (horizontal bar) */
+        .dot.gapB {
+            margin-bottom: var(--biggap, 12px);
+        }
+
         .row-num {
             position: absolute;
             left: -26px;
@@ -239,24 +279,41 @@
             line-height: calc(var(--dot) + var(--gap));
         }
 
-        /* wrapper around input so badge can float */
+        /* answer box wrapper stays the same */
         .ans-wrap {
             position: relative;
-            display: inline-block;
+            display: inline-block
         }
 
+        /* scale width / height with font-size */
         .answer-input {
-            width: 90px;
-            height: 38px;
+            /* 👇 new rules – use em / calc so box scales with --fs */
+            width: calc(var(--fs) * 2.5);
+            /* 4.5 × font-size ≈ original 90 px */
+            /* height: calc(var(--fs) * 1.9); */
+            /* 1.9 × font-size ≈ original 38 px */
+            /* font-size: calc(var(--fs)*0.9); */
+            /* same size as symbols */
+            /* border: 2px solid transparent;
             border-radius: 8px;
-            border: 2px solid transparent;
             background: #ddd;
             text-align: center;
-            font-size: calc(var(--fs)*0.9);
             font-weight: 800;
             outline: none;
-            transition: border-color .2s;
+            transition: border-color .2s; */
+
+            background: #ddd;
+            /* min-width: 64px; */
+            padding: 6px 0;
+            border-radius: 8px;
+            /* color: #fff; */
+            font-weight: 800;
+            font-size: calc(var(--fs)*0.9);
+            text-align: center;
+            margin: 0 6px;
+            border: none
         }
+
 
         /* badge */
         .ans-badge {
@@ -309,13 +366,14 @@
             /* shrink number boxes a touch */
             .num-box,
             input.num-box {
-                min-width: 56px;
+                /* min-width: 56px; */
                 font-size: calc(var(--fs)*0.9);
             }
 
             .answer-input {
-                width: 80px;
-                height: 34px;
+                /* width: 80px;
+                height: 34px; */
+                font-size: calc(var(--fs)*0.9);
             }
 
             /* workbook grid gap just 10 mm between cards */
@@ -387,23 +445,31 @@
             el.textContent = s;
             return el;
         }
-        function makeAns(expectedA, expectedB) {
+        function makeAns(inA, inB) {
             const wrap = document.createElement('div'); wrap.className = 'ans-wrap';
             const inp = document.createElement('input');
             inp.type = 'number'; inp.placeholder = ''; inp.className = 'answer-input';
+
             const badge = document.createElement('div'); badge.className = 'ans-badge';
             wrap.append(inp, badge);
 
             const validate = () => {
-                const correct = (+inp.value === expectedA + expectedB);
+                const sum = (+inA.value || 0) + (+inB.value || 0); // live sum
+                const correct = (+inp.value === sum);
+
                 badge.style.display = inp.value === '' ? 'none' : 'flex';
                 badge.className = 'ans-badge ' + (correct ? 'ok' : 'fail');
                 badge.textContent = correct ? '✓' : '✖';
-                inp.style.borderColor = correct ? '#22c55e' :
-                    (inp.value === '' ? 'transparent' : '#ef4444');
+                inp.style.borderColor =
+                    correct ? '#22c55e' :
+                        (inp.value === '' ? 'transparent' : '#ef4444');
             };
-            inp.addEventListener('input', validate);
-            return { wrap, validate };   // return both for later re-check
+
+            inp.addEventListener('input', validate);  // type
+            inp.addEventListener('keydown', e => { if (e.key === 'Enter') validate(); });
+            inp.addEventListener('blur', validate); // click away
+
+            return { wrap, validate };
         }
 
 
@@ -415,14 +481,25 @@
         }
         function paint(grid, a, b) {
             grid.innerHTML = '';
-            const total = a + b;
-            for (let i = 0; i < 100; i++) {
-                const d = document.createElement('div');
-                d.className = 'dot';
-                if (i < a) d.classList.add('fillA');
-                else if (i < total) d.classList.add('fillB');
-                grid.appendChild(d);
+            let coloured = 0;
+            for (let r = 0; r < 11; r++) {            // 0 … 10 rows
+                for (let c = 0; c < 11; c++) {          // 0 … 10 cols
+                    const idx = r * 11 + c;                // running index (0..120)
+                    const dot = document.createElement('div');
+
+                    // put blank spacer in row 5 or col 5
+                    if (r === 5 || c === 5) {
+                        dot.className = 'dot spacer';
+                    } else {
+                        dot.className = 'dot';
+                        if (coloured < a) dot.classList.add('fillA');
+                        else if (coloured < a + b) dot.classList.add('fillB');
+                        coloured++;
+                    }
+                    grid.appendChild(dot);
+                }
             }
+
         }
 
         // ------------- makePanel (uses helpers defined above) ------------------
@@ -437,7 +514,7 @@
 
             const inA = makeInput(a, 'num-a');
             const inB = makeInput(b, 'num-b');
-            const ansObj = makeAns(+inA.value, +inB.value);   // {wrap, validate}
+            const ansObj = makeAns(inA, inB);   // {wrap, validate}
             strip.append(inA, makeSym('+'), inB, makeSym('='), ansObj.wrap);
 
             // strip.append(inA,
@@ -457,9 +534,12 @@
             wrap.append(numCol, grid);          // numbers on left, dots on right
             panel.appendChild(wrap);
 
-            for (let r = 0; r < 10; r++) {
+            for (let r = 0; r < 11; r++) {
+
                 const cell = document.createElement('div');
-                cell.textContent = r + 1;         // 1 at top, 10 at bottom
+                let label = (r < 5) ? (r + 1) : r
+                if (r == 5) { label = "" }
+                cell.textContent = label;         // 1 at top, 10 at bottom
                 numCol.appendChild(cell);
             }
 
@@ -467,8 +547,13 @@
 
             [inA, inB].forEach(inp => inp.addEventListener('input', () => {
                 paint(grid, +inA.value || 0, +inB.value || 0);
-                ansObj.validate();   // force badge re-check
+                ansObj.validate();               // sum has changed → re-validate
             }));
+
+            // [inA, inB].forEach(inp => inp.addEventListener('input', () => {
+            //     paint(grid, +inA.value || 0, +inB.value || 0);
+            //     ansObj.validate();   // force badge re-check
+            // }));
 
             // [inA, inB].forEach(inp => inp.addEventListener('input', () => {
             //     paint(grid, +inA.value || 0, +inB.value || 0);

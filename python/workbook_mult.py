@@ -24,7 +24,7 @@ from matplotlib.patches import Rectangle, Circle
 from matplotlib.backends.backend_pdf import PdfPages
 
 # ——— global style constants ——————————————————————————
-FONT_SIZE  = 20
+FONT_SIZE  = 15
 BOX_PAD    = 0.0     # gap after each coloured number box  (fraction of panel W)
 SYM_PAD    = 0.05    # gap after each symbol               (fraction of panel W)
 COLOR_A, COLOR_B = "#b038a8", "#0070c0"
@@ -173,6 +173,8 @@ def build_pdf(pairs, rows, cols, outfile):
 
 
 # ---------------------- CLI -------------------------
+# example python .\workbook_mult.py -r 2 -c 2 --pairs '3x4,5x2,8x6,7x9'
+
 if __name__ == '__main__':
     ap = argparse.ArgumentParser(description='Dot-multiplication worksheet generator')
     ap.add_argument('-r', '--rows', type=int, default=2, help='panels down')

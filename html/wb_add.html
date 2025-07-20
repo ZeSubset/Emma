@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Dot-Addition Workbook</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&display=swap');
+
+
+        :root {
+            --fs: 20px;
+            /* ↔ slider sets this */
+            --purple: #b038a8;
+            /* ↔ COLOR 1 picker   */
+            --blue: #0070c0;
+            /* ↔ COLOR 2 picker   */
+            --panel-a: #f2f2f2;
+            /* ↔ Panel bg picker  */
+            --panel-b: #e8f6ff;
+            /* alt panel bg       */
+            --grid-bg: #cdecc9;
+            /* ↔ Grid bg picker   */
+            --dot: 22px;
+            --gap: 4px;
+        }
+
+        /* —— basic reset —— */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif
+        }
+
+        body {
+            background: #fafafa;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px
+        }
+
+        /* —— settings tray —— */
+        #settings {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            background: #fff;
+            border-radius: 12px;
+            padding: 12px 18px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, .12)
+        }
+
+        #settings label {
+            font-size: .85rem;
+            font-weight: 600;
+            margin-right: 6px
+        }
+
+        #settings input[type=color] {
+            width: 34px;
+            height: 34px;
+            border: none;
+            border-radius: 6px;
+            padding: 0
+        }
+
+        #settings input[type=range] {
+            width: 120px
+        }
+
+        /* —— workbook grid —— */
+        #workbook {
+            display: grid;
+            gap: 20px
+        }
+
+        .panel {
+            background: var(--panel-a);
+            border-radius: 16px;
+            padding: 18px 18px 14px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .12);
+            animation: pop .4s
+        }
+
+        .panel.alt {
+            background: var(--panel-b)
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(.9);
+                opacity: 0
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        /* equation strip */
+        .eq-strip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap
+        }
+
+        .num-box,
+        input.num-box {
+            min-width: 64px;
+            padding: 6px 0;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 800;
+            font-size: calc(var(--fs)*0.9);
+            text-align: center;
+            margin: 0 6px;
+            border: none
+        }
+
+        input.num-box {
+            width: 72px
+        }
+
+        .num-a {
+            background: var(--purple)
+        }
+
+        .num-b {
+            background: var(--blue)
+        }
+
+        .sym {
+            font-size: var(--fs);
+            font-weight: 800;
+            margin: 0 6px;
+            color: #222
+        }
+
+        .answer {
+            background: #ddd;
+            min-width: 90px;
+            height: 38px;
+            border-radius: 8px;
+            margin-left: 6px
+        }
+
+        /* grid + numbers */
+        /* replace the old .grid-wrap block */
+        /* —— grid + number wrapper in two columns —— */
+        .grid-wrap {
+            display: grid;
+            grid-template-columns: auto auto;
+            /* col-0 = numbers, col-1 = dot grid */
+            justify-content: center;
+            /* centers the whole two-column block */
+            column-gap: 4px;
+            /* small gap between numbers & dots */
+        }
+
+        /* column-0: vertical stack of numbers */
+        /* number column: 10 rows, now with matching 10 px padding */
+        .num-col {
+            display: grid;
+            grid-template-rows: repeat(10, var(--dot));
+            row-gap: var(--gap);
+            padding: 10px 0;
+            /* ← add this */
+        }
+
+        /* each digit already flex-centred inside its row */
+        .num-col div {
+            width: 24px;
+            display: flex;
+            align-items: center;
+            /* vertical centring */
+            justify-content: flex-end;
+            /* right-align number against dots */
+            font-size: .75rem;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .grid {
+            /* existing rules ↓ */
+            display: grid;
+            grid-template-columns: repeat(10, var(--dot));
+            grid-gap: var(--gap);
+            background: var(--grid-bg);
+            padding: 10px;
+            border-radius: 12px;
+            justify-content: center;
+
+            /* NEW: keep the whole grid no wider than 260 px */
+            max-width: 260px;
+            /* tweak until it matches your equation strip */
+        }
+
+        .dot {
+            width: var(--dot);
+            height: var(--dot);
+            border-radius: 50%;
+            border: 2px solid #333;
+            background: #fff;
+            transition: transform .2s
+        }
+
+        .dot.fillA {
+            background: var(--purple)
+        }
+
+        .dot.fillB {
+            background: var(--blue)
+        }
+
+        .dot:hover {
+            transform: scale(1.25);
+            cursor: pointer
+        }
+
+        .row-num {
+            position: absolute;
+            left: -26px;
+            /* was -32px  — closer to dots */
+            width: 24px;
+            text-align: right;
+            font-size: .75rem;
+            /* optional: a hair larger */
+            font-weight: 600;
+            color: #444;
+            line-height: calc(var(--dot) + var(--gap));
+        }
+
+        /* wrapper around input so badge can float */
+        .ans-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        .answer-input {
+            width: 90px;
+            height: 38px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            background: #ddd;
+            text-align: center;
+            font-size: calc(var(--fs)*0.9);
+            font-weight: 800;
+            outline: none;
+            transition: border-color .2s;
+        }
+
+        /* badge */
+        .ans-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .ans-badge.ok {
+            background: #22c55e;
+        }
+
+        /* green ✅ */
+        .ans-badge.fail {
+            background: #ef4444;
+        }
+
+        /* red  ✖ */
+
+        /* === PRINT STYLES ===================================================== */
+        /* ═════════ PRINT LAYOUT: Fit 2 × 2 panels on one sheet ═════════ */
+        @media print {
+
+            /* 1️⃣  Page setup */
+            @page {
+                size: A4 landscape;
+                /* or `letter landscape` for US paper */
+                margin: 10mm;
+            }
+
+            /* 2️⃣  Tighten everything so 2×2 fits */
+            :root {
+                --dot: 16px;
+                /* was 22 */
+                --gap: 3px;
+                /* was 4 */
+                --fs: 18px;
+                /* smaller equation text */
+            }
+
+            /* shrink number boxes a touch */
+            .num-box,
+            input.num-box {
+                min-width: 56px;
+                font-size: calc(var(--fs)*0.9);
+            }
+
+            .answer-input {
+                width: 80px;
+                height: 34px;
+            }
+
+            /* workbook grid gap just 10 mm between cards */
+            #workbook {
+                gap: 10mm !important;
+            }
+
+            /* 3️⃣  Keep whole panels together & hide UI */
+            #settings {
+                display: none !important;
+            }
+
+            .panel {
+                box-shadow: none !important;
+                page-break-inside: avoid;
+                /* Chrome / Edge */
+                break-inside: avoid;
+                /* Firefox */
+            }
+
+            body {
+                display: flex !important;
+                /* override default block layout          */
+                justify-content: center;
+                /* horizontal centring inside page        */
+                align-items: center;
+                /* vertical ❶  centring ❷                 */
+                height: 100vh;
+                /* let flex-box fill the printable height */
+                margin: 0;
+                /* rely on @page margin instead           */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ───── Settings Panel ───── -->
+    <div id="settings">
+        <div><label>Color&nbsp;1:</label><input type="color" id="colA" value="#b038a8"></div>
+        <div><label>Color&nbsp;2:</label><input type="color" id="colB" value="#0070c0"></div>
+        <div><label>Grid&nbsp;Bg:</label><input type="color" id="gridBg" value="#cdecc9"></div>
+        <div><label>Panel&nbsp;Bg:</label><input type="color" id="panelBg" value="#f2f2f2"></div>
+        <div><label>Font&nbsp;size:</label><input type="range" id="fSize" min="14" max="36" value="20">
+            <span id="fsVal">20</span>px
+        </div>
+    </div>
+
+    <!-- ───── Workbook Grid ───── -->
+    <div id="workbook"></div>
+
+    <script>
+        // =============== CONFIG ================
+        const rows = 2, cols = 2;
+        const defaultPairs = [[26, 6], [15, 4], [38, 5], [17, 7]];
+        // =======================================
+
+        // ------------- helpers (declare FIRST, so they’re hoisted) -------------
+        function makeInput(val, cls) {
+            const i = document.createElement('input');
+            i.type = 'number'; i.min = 0; i.max = 100; i.value = val;
+            i.className = `num-box ${cls}`;
+            return i;
+        }
+        function makeSym(s) {
+            const el = document.createElement('div');
+            el.className = 'sym';
+            el.textContent = s;
+            return el;
+        }
+        function makeAns(expectedA, expectedB) {
+            const wrap = document.createElement('div'); wrap.className = 'ans-wrap';
+            const inp = document.createElement('input');
+            inp.type = 'number'; inp.placeholder = ''; inp.className = 'answer-input';
+            const badge = document.createElement('div'); badge.className = 'ans-badge';
+            wrap.append(inp, badge);
+
+            const validate = () => {
+                const correct = (+inp.value === expectedA + expectedB);
+                badge.style.display = inp.value === '' ? 'none' : 'flex';
+                badge.className = 'ans-badge ' + (correct ? 'ok' : 'fail');
+                badge.textContent = correct ? '✓' : '✖';
+                inp.style.borderColor = correct ? '#22c55e' :
+                    (inp.value === '' ? 'transparent' : '#ef4444');
+            };
+            inp.addEventListener('input', validate);
+            return { wrap, validate };   // return both for later re-check
+        }
+
+
+        function getVar(name) {
+            return getComputedStyle(document.documentElement).getPropertyValue(name);
+        }
+        function setRootVar(k, v) {
+            document.documentElement.style.setProperty(k, v);
+        }
+        function paint(grid, a, b) {
+            grid.innerHTML = '';
+            const total = a + b;
+            for (let i = 0; i < 100; i++) {
+                const d = document.createElement('div');
+                d.className = 'dot';
+                if (i < a) d.classList.add('fillA');
+                else if (i < total) d.classList.add('fillB');
+                grid.appendChild(d);
+            }
+        }
+
+        // ------------- makePanel (uses helpers defined above) ------------------
+        function makePanel(a, b, idx) {
+            const panel = document.createElement('div');
+            panel.className = 'panel' + (idx % 2 ? ' alt' : '');
+            wb.appendChild(panel);
+
+            const strip = document.createElement('div');
+            strip.className = 'eq-strip';
+            panel.appendChild(strip);
+
+            const inA = makeInput(a, 'num-a');
+            const inB = makeInput(b, 'num-b');
+            const ansObj = makeAns(+inA.value, +inB.value);   // {wrap, validate}
+            strip.append(inA, makeSym('+'), inB, makeSym('='), ansObj.wrap);
+
+            // strip.append(inA,
+            //     makeSym('+'),
+            //     inB,
+            //     makeSym('='),
+            //     makeAns(+inA.value, +inB.value));
+
+            // strip.append(inA, makeSym('+'), inB, makeSym('='), makeAns());
+
+            const wrap = document.createElement('div');
+            wrap.className = 'grid-wrap';
+            const numCol = document.createElement('div');
+            numCol.className = 'num-col';
+            const grid = document.createElement('div');
+            grid.className = 'grid';
+            wrap.append(numCol, grid);          // numbers on left, dots on right
+            panel.appendChild(wrap);
+
+            for (let r = 0; r < 10; r++) {
+                const cell = document.createElement('div');
+                cell.textContent = r + 1;         // 1 at top, 10 at bottom
+                numCol.appendChild(cell);
+            }
+
+            paint(grid, +inA.value, +inB.value);
+
+            [inA, inB].forEach(inp => inp.addEventListener('input', () => {
+                paint(grid, +inA.value || 0, +inB.value || 0);
+                ansObj.validate();   // force badge re-check
+            }));
+
+            // [inA, inB].forEach(inp => inp.addEventListener('input', () => {
+            //     paint(grid, +inA.value || 0, +inB.value || 0);
+            //     // refresh answer validation
+            //     answerBox.dispatchEvent(new Event('input'));
+            // }));
+
+
+            // [inA, inB].forEach(inp =>
+            //     inp.addEventListener('input', () => paint(grid, +inA.value || 0, +inB.value || 0))
+            // );
+
+
+        }
+
+        // ------------- build the workbook grid ---------------------------------
+        const wb = document.getElementById('workbook');
+        wb.style.gridTemplateColumns = `repeat(${cols}, minmax(280px, 1fr))`;
+        defaultPairs.forEach((pr, idx) => makePanel(pr[0], pr[1], idx));
+
+        // ------------- settings listeners --------------------------------------
+        document.getElementById('colA').addEventListener('input', e =>
+            setRootVar('--purple', e.target.value));
+        document.getElementById('colB').addEventListener('input', e =>
+            setRootVar('--blue', e.target.value));
+        document.getElementById('gridBg').addEventListener('input', e =>
+            setRootVar('--grid-bg', e.target.value));
+        document.getElementById('panelBg').addEventListener('input', e =>
+            setRootVar('--panel-a', e.target.value));
+        document.getElementById('fSize').addEventListener('input', e => {
+            setRootVar('--fs', `${e.target.value}px`);
+            document.getElementById('fsVal').textContent = e.target.value;
+        });
+    </script>
+
+</body>
+
+</html>

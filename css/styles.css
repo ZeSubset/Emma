@@ -1,0 +1,382 @@
+/* ───────── root variables ───────── */
+:root {
+    --fs: 20px;
+    /* equation font-size (slider) */
+    --dot: 22px;
+    /* dot diameter  */
+    --gap: 4px;
+    /* tiny gap between dots */
+    --biggap: 12px;
+    /* unused now (spacers instead of gaps) */
+
+    --panel-a: #f2f2f2;
+    /* alternating panel backgrounds */
+    --panel-b: #e8f6ff;
+    --grid-bg: #cdecc9;
+
+    --purple: #b038a8;
+    /* ↔ COLOR 1 picker   */
+    --blue: #0070c0;
+    /* ↔ COLOR 2 picker   */
+
+    /* 10-colour rainbow */
+    --c0: #ff0000;
+    --c1: #ff7f00;
+    --c2: #ffff00;
+    --c3: #00ff00;
+    --c4: #00ffff;
+    --c5: #0000ff;
+    --c8: #8b00ff;
+    --c7: #f510bf;
+    --c6: #ff6214;
+    --c9: #f40c0c;
+}
+
+/* ───────── base reset & layout ───────── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif
+}
+
+body {
+    background: #fafafa;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center
+}
+
+/* settings bar */
+#settings {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    background: #fff;
+    padding: 12px 18px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .12)
+}
+
+#settings label {
+    font-size: .85rem;
+    font-weight: 600;
+    margin-right: 6px
+}
+
+#settings input[type=color] {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 6px;
+    padding: 0
+}
+
+#settings input[type=range] {
+    width: 120px
+}
+
+/* workbook grid container */
+#workbook {
+    display: grid;
+    gap: 20px
+}
+
+/* panel card */
+.panel {
+    background: var(--panel-a);
+    border-radius: 16px;
+    padding: 18px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .12);
+    animation: pop .4s
+}
+
+.panel.alt {
+    background: var(--panel-b)
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(.9);
+        opacity: 0
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1
+    }
+}
+
+/* equation strip */
+.eq-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px
+}
+
+.num-box,
+input.num-box,
+.answer-input {
+    width: calc(var(--fs)*3.2);
+    height: calc(var(--fs)*1.9);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--fs);
+    font-weight: 800;
+    border-radius: 8px;
+    border: none;
+    margin: 0 6px;
+    text-align: center;
+    color: #000;
+}
+
+/* input.num-box {
+    background: #ddd;
+    color: #000;
+} */
+
+/* .num-a { */
+/* background: var(--c0); */
+/* } */
+
+/* red for first input */
+/* .num-b { */
+/* background: var(--c5); */
+/* } */
+
+/* blue for second input */
+.sym {
+    font-size: var(--fs);
+    font-weight: 800;
+    margin: 0 6px;
+    color: #222
+}
+
+/* answer box + badge */
+.ans-wrap {
+    position: relative;
+    display: inline-block
+}
+
+.answer-input {
+    background: #ddd;
+    color: #000;
+    border: 2px solid transparent;
+    transition: border-color .2s
+}
+
+.ans-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: .9rem;
+    color: #fff;
+    font-weight: 800
+}
+
+.ans-badge.ok {
+    background: #22c55e
+}
+
+.ans-badge.fail {
+    background: #ef4444
+}
+
+/* grid wrapper: two cols (numbers + dots) */
+.grid-wrap {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    column-gap: 4px
+}
+
+.num-col {
+    display: grid;
+    grid-template-rows: repeat(11, var(--dot));
+    row-gap: var(--gap);
+    padding: 10px 0
+}
+
+.num-col div {
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: .75rem;
+    font-weight: 600;
+    color: #444
+}
+
+/* dot grid 11×11 inc. spacer row/col */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(11, var(--dot));
+    grid-gap: var(--gap);
+    background: var(--grid-bg);
+    padding: 10px;
+    border-radius: 12px;
+    justify-content: center
+}
+
+.dot {
+    width: var(--dot);
+    height: var(--dot);
+    border-radius: 50%;
+    border: 2px solid #333;
+    background: #fff
+}
+
+.dot.spacer {
+    border: none;
+    background: transparent;
+    pointer-events: none
+}
+
+/* rainbow dot classes */
+.dot.r0 {
+    background: var(--c0)
+}
+
+.dot.r1 {
+    background: var(--c1)
+}
+
+.dot.r2 {
+    background: var(--c2)
+}
+
+.dot.r3 {
+    background: var(--c3)
+}
+
+.dot.r4 {
+    background: var(--c4)
+}
+
+.dot.r5 {
+    background: var(--c5)
+}
+
+.dot.r6 {
+    background: var(--c6)
+}
+
+.dot.r7 {
+    background: var(--c7)
+}
+
+.dot.r8 {
+    background: var(--c8)
+}
+
+.dot.r9 {
+    background: var(--c9)
+}
+
+.dot:hover {
+    transform: scale(1.25);
+    cursor: pointer
+}
+
+@media print {
+    /* … everything you already have … */
+
+    /* Put the first 4 panels on page 1, the next 4 on page 2, … */
+    .panel:nth-of-type(4n) {
+        page-break-after: always;
+        /* legacy syntax (Chrome, Edge)  */
+        break-after: page;
+        /* modern syntax (Firefox, new spec) */
+    }
+
+    /* Optional: don’t break after the very last panel */
+    .panel:last-of-type {
+        page-break-after: auto;
+        break-after: auto;
+    }
+}
+
+/* ───── print: fit 2×2 on A4 landscape ───── */
+/* === PRINT STYLES ===================================================== */
+/* ═════════ PRINT LAYOUT: Fit 2 × 2 panels on one sheet ═════════ */
+
+/* @media print { */
+
+/* 1️⃣  Page setup */
+/* @page { */
+/* size: A4 landscape; */
+/* or `letter landscape` for US paper */
+/* margin: 10mm; */
+/* } */
+
+/* 2️⃣  Tighten everything so 2×2 fits */
+/* :root { */
+/* --dot: 16px; */
+/* was 22 */
+/* --gap: 3px; */
+/* was 4 */
+/* --fs: 18px; */
+/* smaller equation text */
+/* } */
+
+/* shrink number boxes a touch */
+/* .num-box, */
+/* input.num-box { */
+/* min-width: 56px; */
+/* font-size: calc(var(--fs)*0.9); */
+/* } */
+
+/* .answer-input { */
+/* width: 80px;
+    height: 34px; */
+/* font-size: calc(var(--fs)*0.9); */
+/* } */
+
+/* workbook grid gap just 10 mm between cards */
+/* #workbook { */
+/* gap: 10mm !important; */
+/* } */
+
+/* 3️⃣  Keep whole panels together & hide UI */
+/* #settings { */
+/* display: none !important; */
+/* } */
+
+/* .panel { */
+/* box-shadow: none !important; */
+/* page-break-inside: avoid; */
+/* Chrome / Edge */
+/* break-inside: avoid; */
+/* Firefox */
+/* } */
+
+/* body { */
+/* display: flex !important; */
+/* override default block layout          */
+/* justify-content: center; */
+/* horizontal centring inside page        */
+/* align-items: center; */
+/* vertical ❶  centring ❷                 */
+/* height: 100vh; */
+/* let flex-box fill the printable height */
+/* margin: 0; */
+/* rely on @page margin instead           */
+/* } */
+/* } */
+
+/* slider style minimal */
+input[type=range] {
+    accent-color: #22c55e
+}

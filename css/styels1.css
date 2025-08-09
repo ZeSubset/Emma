@@ -1,0 +1,397 @@
+:root {
+    --fs: 20px;
+    /* ↔ slider sets this */
+    --purple: #b038a8;
+    /* ↔ COLOR 1 picker   */
+    --blue: #0070c0;
+    /* ↔ COLOR 2 picker   */
+    --panel-a: #f2f2f2;
+    /* ↔ Panel bg picker  */
+    --panel-b: #e8f6ff;
+    /* alt panel bg       */
+    --grid-bg: #cdecc9;
+    /* ↔ Grid bg picker   */
+    --dot: 22px;
+    --gap: 4px;
+    /* tiny gap between normal dots      */
+    --biggap: 12px;
+    /* extra gap after the 5th row/col   */
+}
+
+/* —— basic reset —— */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif
+}
+
+body {
+    background: #fafafa;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px
+}
+
+/* —— settings tray —— */
+#settings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px 18px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .12)
+}
+
+#settings label {
+    font-size: .85rem;
+    font-weight: 600;
+    margin-right: 6px
+}
+
+#settings input[type=color] {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 6px;
+    padding: 0
+}
+
+#settings input[type=range] {
+    width: 120px
+}
+
+/* —— workbook grid —— */
+#workbook {
+    display: grid;
+    gap: 20px
+}
+
+.panel {
+    background: var(--panel-a);
+    border-radius: 16px;
+    padding: 18px 18px 14px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .12);
+    animation: pop .4s
+}
+
+.panel.alt {
+    background: var(--panel-b)
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(.9);
+        opacity: 0
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1
+    }
+}
+
+/* equation strip */
+.eq-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap
+}
+
+.num-box,
+input.num-box {
+    /* min-width: 34px; */
+    padding: 6px 0;
+    border-radius: 8px;
+    color: #000000;
+    font-weight: 800;
+    font-size: calc(var(--fs)*0.9);
+    text-align: center;
+    margin: 0 6px;
+    border: none
+}
+
+input.num-box {
+    width: calc(var(--fs) * 2.5);
+}
+
+.num-a {
+    background: var(--purple)
+}
+
+.num-b {
+    background: var(--blue)
+}
+
+.sym {
+    font-size: var(--fs);
+    font-weight: 800;
+    margin: 0 6px;
+    color: #222
+}
+
+/* .answer {
+    background: #ddd;
+    min-width: 90px;
+    height: 38px;
+    border-radius: 8px;
+    margin-left: 6px
+} */
+
+/* grid + numbers */
+/* replace the old .grid-wrap block */
+/* —— grid + number wrapper in two columns —— */
+.grid-wrap {
+    display: grid;
+    grid-template-columns: auto auto;
+    /* col-0 = numbers, col-1 = dot grid */
+    justify-content: center;
+    /* centers the whole two-column block */
+    column-gap: 4px;
+    /* small gap between numbers & dots */
+}
+
+/* column-0: vertical stack of numbers */
+/* number column: 10 rows, now with matching 10 px padding */
+.num-col {
+    display: grid;
+    grid-template-rows: repeat(10, var(--dot));
+    row-gap: var(--gap);
+    padding: 10px 0;
+    /* ← add this */
+}
+
+/* each digit already flex-centred inside its row */
+.num-col div {
+    width: 24px;
+    display: flex;
+    align-items: center;
+    /* vertical centring */
+    justify-content: flex-end;
+    /* right-align number against dots */
+    font-size: .75rem;
+    font-weight: 600;
+    color: #444;
+}
+
+/* .grid { */
+/* existing rules ↓ */
+/* display: grid;
+    grid-template-columns: repeat(10, var(--dot));
+    grid-gap: var(--gap);
+    background: var(--grid-bg);
+    padding: 10px;
+    border-radius: 12px;
+    justify-content: center; */
+
+/* NEW: keep the whole grid no wider than 260 px */
+/* max-width: 260px; */
+/* tweak until it matches your equation strip */
+/* } */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(11, var(--dot));
+    /* 11 not 10 */
+    grid-gap: var(--gap);
+    background: var(--grid-bg);
+    padding: 10px;
+    border-radius: 12px;
+    justify-content: center;
+}
+
+/* invisible spacer cell */
+.dot.spacer {
+    border: none;
+    background: transparent;
+    pointer-events: none;
+}
+
+.dot {
+    width: var(--dot);
+    height: var(--dot);
+    border-radius: 50%;
+    border: 2px solid #333;
+    background: #fff;
+    transition: transform .2s
+}
+
+.dot.fillA {
+    background: var(--purple)
+}
+
+.dot.fillB {
+    background: var(--blue)
+}
+
+.dot:hover {
+    transform: scale(1.25);
+    cursor: pointer
+}
+
+/* extra margins are dot-specific, so use classes */
+/* .dot.gapR {
+    margin-right: var(--biggap);
+}
+
+.dot.gapB {
+    margin-bottom: var(--biggap);
+} */
+
+/* extra gap after the 5th column (vertical bar) */
+.dot.gapR {
+    margin-right: var(--biggap, 12px);
+}
+
+/* extra gap after the 5th row  (horizontal bar) */
+.dot.gapB {
+    margin-bottom: var(--biggap, 12px);
+}
+
+.row-num {
+    position: absolute;
+    left: -26px;
+    /* was -32px  — closer to dots */
+    width: 24px;
+    text-align: right;
+    font-size: .75rem;
+    /* optional: a hair larger */
+    font-weight: 600;
+    color: #444;
+    line-height: calc(var(--dot) + var(--gap));
+}
+
+/* answer box wrapper stays the same */
+.ans-wrap {
+    position: relative;
+    display: inline-block
+}
+
+/* scale width / height with font-size */
+.answer-input {
+    /* 👇 new rules – use em / calc so box scales with --fs */
+    width: calc(var(--fs) * 2.5);
+    /* 4.5 × font-size ≈ original 90 px */
+    /* height: calc(var(--fs) * 1.9); */
+    /* 1.9 × font-size ≈ original 38 px */
+    /* font-size: calc(var(--fs)*0.9); */
+    /* same size as symbols */
+    /* border: 2px solid transparent;
+    border-radius: 8px;
+    background: #ddd;
+    text-align: center;
+    font-weight: 800;
+    outline: none;
+    transition: border-color .2s; */
+
+    background: #ddd;
+    /* min-width: 64px; */
+    padding: 6px 0;
+    border-radius: 8px;
+    /* color: #fff; */
+    font-weight: 800;
+    font-size: calc(var(--fs)*0.9);
+    text-align: center;
+    margin: 0 6px;
+    border: none
+}
+
+
+/* badge */
+.ans-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #fff;
+    font-weight: 800;
+}
+
+.ans-badge.ok {
+    background: #22c55e;
+}
+
+/* green ✅ */
+.ans-badge.fail {
+    background: #ef4444;
+}
+
+/* red  ✖ */
+
+/* === PRINT STYLES ===================================================== */
+/* ═════════ PRINT LAYOUT: Fit 2 × 2 panels on one sheet ═════════ */
+@media print {
+
+    /* 1️⃣  Page setup */
+    @page {
+        size: A4 landscape;
+        /* or `letter landscape` for US paper */
+        margin: 10mm;
+    }
+
+    /* 2️⃣  Tighten everything so 2×2 fits */
+    :root {
+        --dot: 16px;
+        /* was 22 */
+        --gap: 3px;
+        /* was 4 */
+        --fs: 18px;
+        /* smaller equation text */
+    }
+
+    /* shrink number boxes a touch */
+    .num-box,
+    input.num-box {
+        /* min-width: 56px; */
+        font-size: calc(var(--fs)*0.9);
+    }
+
+    .answer-input {
+        /* width: 80px;
+        height: 34px; */
+        font-size: calc(var(--fs)*0.9);
+    }
+
+    /* workbook grid gap just 10 mm between cards */
+    #workbook {
+        gap: 10mm !important;
+    }
+
+    /* 3️⃣  Keep whole panels together & hide UI */
+    #settings {
+        display: none !important;
+    }
+
+    .panel {
+        box-shadow: none !important;
+        page-break-inside: avoid;
+        /* Chrome / Edge */
+        break-inside: avoid;
+        /* Firefox */
+    }
+
+    body {
+        display: flex !important;
+        /* override default block layout          */
+        justify-content: center;
+        /* horizontal centring inside page        */
+        align-items: center;
+        /* vertical ❶  centring ❷                 */
+        height: 100vh;
+        /* let flex-box fill the printable height */
+        margin: 0;
+        /* rely on @page margin instead           */
+    }
+}

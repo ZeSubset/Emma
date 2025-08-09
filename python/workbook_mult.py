@@ -120,7 +120,7 @@ def draw_panel(fig, bounds, n, m, idx):
         "#0000ff",  # blue
         "#8b00ff",  # violet
         "#ff1493",  # pink
-        "#b8860b",  # goldenrod
+        "#c315ee",  # goldenrod
         "#800000",  # maroon
     ]
 
@@ -180,7 +180,7 @@ if __name__ == '__main__':
     ap.add_argument('-r', '--rows', type=int, default=2, help='panels down')
     ap.add_argument('-c', '--cols', type=int, default=2, help='panels across')
     ap.add_argument('--pairs', type=str,
-                    default='3x4,5x2,8x6,7x9',
+                    default='3x4,5x2,8x6,7x9,',
                     help='comma list like 4x3,7x2 (n×m)')
     ap.add_argument('-o', '--outfile', default='dot_mult_sheet.pdf')
     args = ap.parse_args()

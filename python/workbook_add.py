@@ -137,6 +137,7 @@ def build_pdf(pairs, rows, cols, outfile):
     print('Saved', outfile)
 
 if __name__ == '__main__':
+    #python .\workbook_add.py -r 2 -c 2 --pairs "15+8,25+8,5+8,65+8" 
     ap = argparse.ArgumentParser(description='Dot‑addition worksheet generator')
     ap.add_argument('-r','--rows', type=int, default=2)
     ap.add_argument('-c','--cols', type=int, default=2)

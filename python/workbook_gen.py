@@ -48,7 +48,7 @@ def draw_worksheet(box_content: List[List[str]],
     outfile:
         Path where the PDF will be written.
     """
-    assert len(box_content) == 9, "Expect 9 boxes (3 × 3 grid)."
+    # assert len(box_content) == 9, "Expect 9 boxes (3 × 3 grid)."
 
     # A4 portrait figure
     plt.rcParams['font.family'] = 'DejaVu Sans Mono'
@@ -64,7 +64,7 @@ def draw_worksheet(box_content: List[List[str]],
             ha='center', va='top', fontsize=11)
 
     # Layout constants
-    rows, cols = 3, 3
+    rows, cols = 2, 3
     box_w, box_h = 0.28, 0.22           # Normalised coords
     x0, y0_start = 0.05, 0.83           # Top‑left anchor
     x_spacing, y_spacing = 0.035, 0.04
@@ -105,17 +105,17 @@ def draw_worksheet(box_content: List[List[str]],
 # -----------------------------------------------------------
 
 BOX_CONTENT = [
-    [" 7 + 2 =", "37 + 2 =", "87 + 2 ="],
-    ["18 + 3 =", "28 + 3 =", "38 + 3 ="],
-    ["6 + 7 =", "16 + 7 =", "46 + 7 ="],
+    [" 5 + 2 =", "35 + 2 =", "85 + 2 ="],
+    ["17 + 3 =", "27 + 3 =", "37 + 3 ="],
+    [" 2 + 7 =", "12 + 7 =", "42 + 7 ="],
 
-    ["9 + 11 =", "19 + 11 =", "29 + 11 ="],
-    ["50 + 50 =", "80 + 20 =", "10 + 90 ="],
-    ["32 + 1 =", "52 + 3 =", "72 + 5 ="],
-
-    ["5 + 2 =", "35 + 2 =", "55 + 2 ="],
-    ["20 + 30 =", "60 + 40 =", "70 + 10 ="],
+    [" 12 + 10 =", "22 + 10 =", "32 + 10 ="],
+    ["50 + 40 =", "50 + 20 =", "50 + 30 ="],
     ["14 + 6 =", "24 + 6 =", "44 + 6 ="],
+
+    # ["5 + 2 =", "35 + 2 =", "55 + 2 ="],
+    # ["20 + 30 =", "60 + 40 =", "70 + 10 ="],
+    # ["14 + 6 =", "24 + 6 =", "44 + 6 ="],
 ]
 
 if __name__ == "__main__":

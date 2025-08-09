@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Allenamento Addizioni - Discalculia</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #f9f5ef;
+      padding-bottom: 100px;
+    }
+
+    .pagina {
+      display: none;
+      margin-top: 30px;
+    }
+
+    .pagina.attiva {
+      display: block;
+    }
+
+    .cubi-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .gruppo {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cubo {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(to bottom right, #deb887, #a0522d); /* legno chiaro */
+      border: 2px solid #3e2f1c;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      border-radius: 6px;
+    }
+
+    .pattern {
+      background: 
+        repeating-linear-gradient(
+          45deg,
+          #a77c50,
+          #a77c50 8px,
+          #000 8px,
+          #000 9px
+        );
+      border: 2px solid #000;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 18px;
+      width: 100px;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    button {
+      margin: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+
+    .feedback {
+      font-size: 20px;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .corretto { color: green; }
+    .errore { color: red; }
+  </style>
+</head>
+<body>
+
+  <h1>Allenamento con i Cubi</h1>
+
+  <!-- PAGINA 1 -->
+  <div class="pagina attiva" id="pagina1">
+    <h2>Pagina 1: Somma semplice</h2>
+    <div class="cubi-container">
+      <div class="gruppo" id="gruppo1-p1"></div>
+      <div class="gruppo" id="gruppo2-p1"></div>
+    </div>
+    <p>Quanti cubi ci sono in tutto?</p>
+    <input id="input1" type="number" />
+    <button onclick="controlla(1)">Controlla</button>
+    <div id="feedback1" class="feedback"></div>
+  </div>
+
+  <!-- PAGINA 2 -->
+  <div class="pagina" id="pagina2">
+    <h2>Pagina 2: Somma con 10</h2>
+    <div class="cubi-container">
+      <div class="gruppo" id="gruppo1-p2"></div>
+      <div class="gruppo" id="gruppo2-p2"></div>
+    </div>
+    <p>Completa: 10 + ... = ?</p>
+    <input id="input2" type="number" />
+    <button onclick="controlla(2)">Controlla</button>
+    <div id="feedback2" class="feedback"></div>
+  </div>
+
+  <button onclick="vaiAvanti()">Prossimo esercizio</button>
+
+  <script>
+    let paginaCorrente = 1;
+
+    const esercizi = {
+      1: { num1: 3, num2: 2, id1: 'gruppo1-p1', id2: 'gruppo2-p1' },
+      2: { num1: 10, num2: 4, id1: 'gruppo1-p2', id2: 'gruppo2-p2' }
+    };
+
+    function creaCubi(containerId, numero, usaPattern = false) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+      for (let i = 0; i < numero; i++) {
+        const cubo = document.createElement("div");
+        cubo.className = "cubo" + (usaPattern ? " pattern" : "");
+        container.appendChild(cubo);
+      }
+    }
+
+    function caricaEsercizio(n) {
+      const es = esercizi[n];
+      creaCubi(es.id1, es.num1, false);
+      creaCubi(es.id2, es.num2, true);
+    }
+
+    function controlla(n) {
+      const es = esercizi[n];
+      const input = document.getElementById(`input${n}`);
+      const feedback = document.getElementById(`feedback${n}`);
+      const risposta = parseInt(input.value);
+      const corretto = es.num1 + es.num2;
+
+      if (risposta === corretto) {
+        feedback.innerText = "Corretto!";
+        feedback.className = "feedback corretto";
+      } else {
+        feedback.innerText = `No, riprova.`;
+        feedback.className = "feedback errore";
+      }
+    }
+
+    function vaiAvanti() {
+      document.getElementById(`pagina${paginaCorrente}`).classList.remove("attiva");
+      paginaCorrente++;
+      if (!document.getElementById(`pagina${paginaCorrente}`)) paginaCorrente = 1;
+      document.getElementById(`pagina${paginaCorrente}`).classList.add("attiva");
+    }
+
+    // Inizializzazione
+    caricaEsercizio(1);
+    caricaEsercizio(2);
+  </script>
+
+</body>
+</html>

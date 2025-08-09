@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Dot-Addition • Wood-Cube Workbook</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ───────── root variables ───────── */
+        :root {
+            --fs: 20px;
+            /* equation text size               */
+            --dot: 22px;
+            /* cube face width/height           */
+            --gap: 4px;
+            /* gap between cubes                */
+            --cube-edge: 6px;
+            /* 3-D depth of top/right faces      */
+
+            --purple: #b038a8;
+            /* first addend colour              */
+            --blue: #0070c0;
+            /* second addend colour             */
+
+            --panel-a: #f2f2f2;
+            --panel-b: #e8f6ff;
+            /* alternating card bg */
+            --grid-bg: #cdecc9;
+            /* tray background    */
+        }
+
+        /* ───────── reset & body ───────── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif
+        }
+
+        body {
+            background: #fafafa;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center
+        }
+
+        /* settings bar */
+        #settings {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background: #fff;
+            padding: 12px 18px;
+            border-radius: 12px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, .12)
+        }
+
+        #settings label {
+            font-size: .85rem;
+            font-weight: 600;
+            margin-right: 6px
+        }
+
+        input[type=range] {
+            accent-color: #22c55e
+        }
+
+        /* workbook grid */
+        #workbook {
+            display: grid;
+            gap: 20px
+        }
+
+        /* panel card */
+        .panel {
+            background: var(--panel-a);
+            border-radius: 16px;
+            padding: 18px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .12)
+        }
+
+        .panel.alt {
+            background: var(--panel-b)
+        }
+
+        /* equation strip */
+        .eq-strip {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px
+        }
+
+        .num-box,
+        input.num-box,
+        .answer-input {
+            width: calc(var(--fs)*3.2);
+            height: calc(var(--fs)*1.9);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--fs);
+            font-weight: 800;
+            border-radius: 8px;
+            border: none;
+            margin: 0 6px;
+            text-align: center;
+            color: #fff
+        }
+
+        input.num-box {
+            background: #ddd;
+            color: #000;
+        }
+
+        .num-a {
+            background: var(--purple)
+        }
+
+        .num-b {
+            background: var(--blue)
+        }
+
+        .sym {
+            font-size: var(--fs);
+            font-weight: 800;
+            margin: 0 6px;
+            color: #222
+        }
+
+        .ans-wrap {
+            position: relative;
+            display: inline-block
+        }
+
+        .answer-input {
+            background: #ddd;
+            color: #000;
+            border: 2px solid transparent;
+            transition: border-color .2s
+        }
+
+        .ans-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: .9rem;
+            color: #fff;
+            font-weight: 800
+        }
+
+        .ans-badge.ok {
+            background: #22c55e
+        }
+
+        .ans-badge.fail {
+            background: #ef4444
+        }
+
+        /* tray holding only coloured cubes */
+        .grid-wrap {
+            display: flex;
+            justify-content: center
+        }
+
+        .grid {
+            display: grid;
+            /* auto-wrap rows of 10 */
+            grid-template-columns: repeat(10, var(--dot));
+            grid-auto-rows: var(--dot);
+            grid-gap: var(--gap);
+            background: var(--grid-bg);
+            padding: 10px;
+            border-radius: 12px;
+            justify-content: center
+        }
+
+        /* depth in pixels */
+        :root {
+            --edge: 2px;
+        }
+
+        /* raise/lower for chunkier or flatter blocks */
+
+        /* ───────── basic wood block (a-cubes) ───────── */
+        .cube {
+            width: var(--dot);
+            height: var(--dot);
+            background: #d6b17e;
+            /* light wood */
+            border: 2px solid #000;
+            /* thick black outline */
+
+            /* simple 3-D illusion: one shadow = right/bottom face */
+            box-shadow: var(--edge) var(--edge) 0 0 #a37846;
+            transition: transform .2s;
+            cursor: pointer;
+        }
+
+        .cube:hover {
+            transform: scale(1.12);
+        }
+
+        /* ───────── darker b-cubes with hatch ───────── */
+        .cube.fillB {
+            background: #9d6f3e;
+            /* darker wood */
+            box-shadow: var(--edge) var(--edge) 0 0 #6d4c2b;
+            /* matching side tint */
+
+            /* subtle diagonal hatch applied on top */
+            background-image: repeating-linear-gradient(45deg,
+                    transparent 0 5px, rgba(0, 0, 0, .25) 5px 10px);
+            background-blend-mode: overlay;
+        }
+
+        /* a-cubes = just the base .cube style */
+        .cube.fillA {
+            /* nothing extra */
+        }
+
+        /* print – 2×2 on A4 landscape */
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 10mm
+            }
+
+            :root {
+                --dot: 16px;
+                --gap: 3px;
+                --fs: 18px
+            }
+
+            #settings {
+                display: none !important
+            }
+
+            #workbook {
+                gap: 10mm !important
+            }
+
+            .panel {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                page-break-inside: avoid
+            }
+
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0
+            }
+
+            /* break after every 4th panel (2 rows) */
+            .panel:nth-of-type(4n) {
+                page-break-after: always;
+                break-after: page
+            }
+        }
+
+        /* slider minimal */
+        input[type=range] {
+            accent-color: #22c55e
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- settings -->
+    <div id="settings">
+        <div><label>Font&nbsp;size:</label>
+            <input type="range" id="fSize" min="14" max="36" value="20">
+            <span id="fsVal">20</span>px
+        </div>
+    </div>
+
+    <!-- workbook -->
+    <div id="workbook"></div>
+
+    <script>
+        /* ------------ config ------------ */
+        const rows = 2, cols = 2;
+        const pairs = [[26, 6], [15, 4], [38, 5], [17, 7]];   // a+b pairs
+
+        /* ------------ helpers ------------ */
+        const makeInput = (v, cls) => {
+            const i = document.createElement('input');
+            i.type = 'number'; i.min = 0; i.max = 100; i.value = v; i.className = `num-box ${cls}`; return i
+        };
+        const makeSym = s => Object.assign(document.createElement('div'), { className: 'sym', textContent: s });
+        function makeAnswer(inA, inB) {
+            const wrap = document.createElement('div'); wrap.className = 'ans-wrap';
+            const inp = document.createElement('input'); inp.type = 'number'; inp.className = 'answer-input';
+            const badge = document.createElement('div'); badge.className = 'ans-badge';
+            wrap.append(inp, badge);
+            const validate = () => {
+                const sum = (+inA.value || 0) + (+inB.value || 0);
+                const ok = (+inp.value === sum);
+                badge.style.display = inp.value === '' ? 'none' : 'flex';
+                badge.className = 'ans-badge ' + (ok ? 'ok' : 'fail');
+                badge.textContent = ok ? '✓' : '✖';
+                inp.style.borderColor = ok ? '#22c55e' : (inp.value === '' ? 'transparent' : '#ef4444');
+            };
+            inp.addEventListener('keydown', e => { if (e.key === 'Enter') validate() });
+            inp.addEventListener('blur', validate);
+            return { wrap, validate };
+        }
+
+        /* paint only coloured cubes */
+        function paint(grid, a, b) {
+            grid.innerHTML = '';
+            const total = a + b;
+            for (let i = 0; i < total; i++) {
+                const cube = document.createElement('div');
+                cube.className = 'cube ' + (i < a ? 'fillA' : 'fillB');
+                grid.appendChild(cube);
+            }
+        }
+
+        /* build one panel */
+        function makePanel(a, b, i) {
+            const panel = document.createElement('div');
+            panel.className = 'panel' + (i % 2 ? ' alt' : '');
+            workbook.appendChild(panel);
+
+            const strip = document.createElement('div'); strip.className = 'eq-strip'; panel.appendChild(strip);
+            const inA = makeInput(a, 'num-a'), inB = makeInput(b, 'num-b');
+            const ans = makeAnswer(inA, inB);
+            strip.append(inA, makeSym('+'), inB, makeSym('='), ans.wrap);
+
+            const wrap = document.createElement('div'); wrap.className = 'grid-wrap'; panel.appendChild(wrap);
+            const grid = document.createElement('div'); grid.className = 'grid'; wrap.append(grid);
+
+            paint(grid, a, b);
+            [inA, inB].forEach(inp => inp.addEventListener('input', () => {
+                paint(grid, +inA.value || 0, +inB.value || 0); ans.validate();
+            }));
+        }
+
+        /* render workbook */
+        const workbook = document.getElementById('workbook');
+        workbook.style.gridTemplateColumns = `repeat(${cols},minmax(280px,1fr))`;
+        pairs.forEach((p, i) => makePanel(p[0], p[1], i));
+
+        /* font slider */
+        document.getElementById('fSize').addEventListener('input', e => {
+            document.documentElement.style.setProperty('--fs', `${e.target.value}px`);
+            document.getElementById('fsVal').textContent = e.target.value;
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,140 @@
+
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background: #f9f5ef;
+  padding-bottom: 100px;
+}
+
+.cubi-container {
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 620px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gruppo {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cubo {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(to bottom right, #f5deb3, #d2b48c); /* legno chiaro */
+  border: 2px solid #3e2f1c;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  border-radius: 6px;
+  margin: 2px;
+}
+
+.pattern {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #f5deb3,
+      #f5deb3 8px,
+      #000 8px,
+      #000 9px
+    );
+  border: 2px solid #000;
+}
+
+input {
+  padding: 10px;
+  font-size: 18px;
+  width: 100px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+button {
+  margin: 15px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.feedback {
+  font-size: 20px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.corretto { color: green; }
+.errore { color: red; }
+
+
+h1, h2 {
+  font-family: 'Nunito', sans-serif;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+  max-width: 600px;
+  margin: auto;
+  text-align: left;
+}
+
+ul li {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+a:hover {
+  color: #0077aa;
+}
+
+.topnav {
+  background-color: #ddd;
+  padding: 10px 20px;
+  text-align: left;
+  font-size: 16px;
+}
+
+.riga-esercizio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  max-width: 800px;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.area-cubi {
+  flex: 1;
+  min-width: 300px;
+}
+
+.area-domanda {
+  flex: 1;
+  min-width: 250px;
+  text-align: left;
+}
+
+
+.blocco-esercizio:nth-child(odd) {
+  background-color: #f6f6f6;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px auto;
+  max-width: 850px;
+}
+
+.blocco-esercizio:nth-child(even) {
+  background-color: #eaeaea;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px auto;
+  max-width: 850px;
+}

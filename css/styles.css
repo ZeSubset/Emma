@@ -2,7 +2,8 @@
 :root {
     --fs: 20px;
     /* equation font-size (slider) */
-    --dot: 22px;
+    --dot: 35px;
+    --dot_spacer: 10px;
     /* dot diameter  */
     --gap: 4px;
     /* tiny gap between dots */
@@ -18,6 +19,9 @@
     /* ↔ COLOR 1 picker   */
     --blue: #0070c0;
     /* ↔ COLOR 2 picker   */
+
+    /* cube edge */
+    --cube_edge: 2px;
 
     /* 10-colour rainbow */
     --c0: #ff0000;
@@ -288,6 +292,64 @@ input.num-box,
 .dot:hover {
     transform: scale(1.25);
     cursor: pointer
+}
+
+/* ───────── basic wood block (a-cubes) ───────── */
+.cube {
+    width: var(--dot);
+    height: var(--dot);
+    background: #fbfbfa;
+    /* light wood */
+    border: 1px solid #656161;
+    /* thick black outline */
+
+    /* simple 3-D illusion: one shadow = right/bottom face */
+    /* box-shadow: var(--cube_edge) var(--cube_edge) 0 0 #a37846; */
+    transition: transform .2s;
+    cursor: pointer;
+}
+
+.cube:hover {
+    transform: scale(1.12);
+}
+
+.cube.fillA {
+    width: var(--dot);
+    height: var(--dot);
+    background: #e6b886;
+    /* light wood */
+    border: 2px solid #000;
+    /* thick black outline */
+
+    /* simple 3-D illusion: one shadow = right/bottom face */
+    box-shadow: var(--cube_edge) var(--cube_edge) 0 0 #a37846;
+    transition: transform .2s;
+    cursor: pointer;
+}
+
+/* ───────── darker b-cubes with hatch ───────── */
+.cube.fillB {
+    background: #9d6f3e;
+    /* darker wood */
+    box-shadow: var(--cube_edge) var(--cube_edge) 0 0 #6d4c2b;
+    /* matching side tint */
+
+    /* subtle diagonal hatch applied on top */
+    background-image: repeating-linear-gradient(45deg,
+            transparent 0 5px, rgba(0, 0, 0, .25) 5px 10px);
+    background-blend-mode: overlay;
+}
+
+
+
+
+.cube.spacer {
+    border: none;
+    background: transparent;
+    pointer-events: none;
+    box-shadow: none;
+    width: 10px;
+    height: 10px;
 }
 
 @media print {

@@ -72,12 +72,13 @@
             for (let r = 0; r < 11; r++) {
                 for (let c = 0; c < 11; c++) {
                     const d = document.createElement('div');
-                    if (r === 5 || c === 5) { d.className = 'dot spacer'; }
+                    if (r === 5 || c === 5) { d.className = 'cube spacer'; }
                     else {
-                        d.className = 'dot';
+                        d.className = 'cube';
                         if (coloured < product) {
                             const group = Math.floor(coloured / n) % 10; // colour group index
-                            d.classList.add(rainbow[group]);
+                            // d.classList.add(rainbow[group]);
+                            d.className += ' fillA';
                             coloured++;
                         }
                     }

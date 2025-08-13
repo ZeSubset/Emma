@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blockly Playground — Offline</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Local Blockly (downloaded by get_blockly scripts) -->
+  <script src="lib/blockly/blockly.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Blockly Playground</h1>
+    <div class="actions">
+      <button id="runBtn">Run Code</button>
+      <button id="showCodeBtn">Show Code</button>
+      <button id="downloadXmlBtn">Download .xml</button>
+      <input type="file" id="uploadXml" accept=".xml" />
+      <span class="status" id="status"></span>
+    </div>
+  </header>
+
+  <main>
+    <div id="blocklyDiv"></div>
+    <xml id="toolbox" style="display:none">
+      <category name="Logic" categorystyle="logic_category">
+        <block type="controls_if"></block>
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_boolean"></block>
+      </category>
+      <category name="Loops" categorystyle="loop_category">
+        <block type="controls_repeat_ext">
+          <value name="TIMES">
+            <block type="math_number"><field name="NUM">5</field></block>
+          </value>
+        </block>
+        <block type="controls_whileUntil"></block>
+        <block type="controls_for">
+          <value name="FROM"><block type="math_number"><field name="NUM">1</field></block></value>
+          <value name="TO"><block type="math_number"><field name="NUM">10</field></block></value>
+          <value name="BY"><block type="math_number"><field name="NUM">1</field></block></value>
+        </block>
+      </category>
+      <category name="Math" categorystyle="math_category">
+        <block type="math_number"></block>
+        <block type="math_arithmetic"></block>
+      </category>
+      <category name="Text" categorystyle="text_category">
+        <block type="text"></block>
+        <block type="text_print"></block>
+      </category>
+      <category name="Custom" colour="#a86be0">
+        <block type="say_hello"></block>
+        <block type="double_number">
+          <value name="NUM">
+            <block type="math_number"><field name="NUM">7</field></block>
+          </value>
+        </block>
+      </category>
+    </xml>
+  </main>
+
+  <section class="console">
+    <h2>Console</h2>
+    <iframe id="sandbox" title="sandbox"></iframe>
+  </section>
+
+  <dialog id="codeDialog">
+    <pre id="codePre"></pre>
+    <form method="dialog">
+      <button>Close</button>
+    </form>
+  </dialog>
+
+  <script>
+    // Configure media path so Blockly can find its icons offline.
+    const workspace = Blockly.inject('blocklyDiv', {
+      toolbox: document.getElementById('toolbox'),
+      media: 'lib/blockly/media/',
+      grid: { spacing: 20, length: 3, colour: '#ccc', snap: true },
+      move: { scrollbars: true, drag: true, wheel: true },
+      zoom: { controls: true, wheel: true },
+      trashcan: true,
+      renderer: 'geras'
+    });
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>

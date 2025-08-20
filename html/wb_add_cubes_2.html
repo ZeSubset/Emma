@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Interactive Cube-Addition Workbook</title>
+
+  <!-- Nunito font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- settings bar -->
+  <div id="settings">
+    <div>
+      <label>Font&nbsp;size:</label>
+      <input type="range" id="fSize" min="14" max="36" value="20">
+      <span id="fsVal">20</span>px
+    </div>
+  </div>
+
+  <!-- workbook -->
+  <div id="workbook"></div>
+
+  <script>
+    /* -------- config -------- */
+    const rows = 1, cols = 1;                 // panel grid
+    const pairs = [[26, 6]];                   // a + b pairs (0..100)
+
+    /* -------- helpers -------- */
+    function makeInput(v, cls) {
+      const i = document.createElement('input');
+      i.type = 'number'; i.min = 0; i.max = 100; i.value = v;
+      i.className = `num-box ${cls}`;
+      return i;
+    }
+    function makeSym(s) {
+      const e = document.createElement('div'); e.className = 'sym'; e.textContent = s; return e;
+    }
+    function makeAnswer(inA, inB) {
+      const wrap = document.createElement('div'); wrap.className = 'ans-wrap';
+      const inp = document.createElement('input'); inp.type = 'number'; inp.className = 'answer-input';
+      const badge = document.createElement('div'); badge.className = 'ans-badge';
+      wrap.append(inp, badge);
+
+      const validate = () => {
+        const sum = (+inA.value || 0) + (+inB.value || 0);
+        const ok  = (+inp.value === sum);
+        badge.style.display = inp.value === '' ? 'none' : 'flex';
+        badge.className = 'ans-badge ' + (ok ? 'ok' : 'fail');
+        badge.textContent = ok ? '✓' : '✖';
+        inp.style.borderColor = ok ? '#22c55e' : (inp.value === '' ? 'transparent' : '#ef4444');
+      };
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') validate(); });
+      inp.addEventListener('blur', validate);
+      return { wrap, validate };
+    }
+
+    /* paint addition cubes: a first (fillA), then b (fillB), skipping spacer row/col */
+    function paint(grid, a, b) {
+      grid.innerHTML = '';
+      const total = Math.max(0, Math.min(100, (+a || 0) + (+b || 0))); // clamp to 0..100
+      let coloured = 0;
+      for (let r = 0; r < 11; r++) {
+        for (let c = 0; c < 11; c++) {
+          const d = document.createElement('div');
+          if (r === 5 || c === 5) {
+            d.className = 'cube spacer';
+          } else {
+            d.className = 'cube';
+            if (coloured < total) {
+              d.classList.add(coloured < (+a || 0) ? 'fillA' : 'fillB');
+              coloured++;
+            }
+          }
+          grid.appendChild(d);
+        }
+      }
+    }
+
+    /* build one panel */
+    function makePanel(a, b, index) {
+      const panel = document.createElement('div');
+      panel.className = 'panel' + (index % 2 ? ' alt' : '');
+      workbook.appendChild(panel);
+
+      /* equation strip */
+      const strip = document.createElement('div'); strip.className = 'eq-strip'; panel.appendChild(strip);
+      const inA = makeInput(a, 'num-a'); const inB = makeInput(b, 'num-b');
+      const ans = makeAnswer(inA, inB);
+      strip.append(inA, makeSym('+'), inB, makeSym('='), ans.wrap);
+
+      /* grid + numbers (11 rows, skip spacer row label) */
+      const wrap = document.createElement('div'); wrap.className = 'grid-wrap'; panel.appendChild(wrap);
+      const numCol = document.createElement('div'); numCol.className = 'num-col'; wrap.append(numCol);
+      const grid = document.createElement('div'); grid.className = 'grid'; wrap.append(grid);
+
+      for (let r = 0; r < 11; r++) {
+        const cell = document.createElement('div');
+        cell.textContent = (r === 5) ? '' : (r < 5 ? r + 1 : r); numCol.appendChild(cell);
+      }
+      paint(grid, a, b);
+
+      /* link inputs -> repaint + revalidate */
+      [inA, inB].forEach(i => i.addEventListener('input', () => {
+        paint(grid, +inA.value || 0, +inB.value || 0);
+        ans.validate();
+      }));
+    }
+
+    /* render workbook */
+    const workbook = document.getElementById('workbook');
+    workbook.style.gridTemplateColumns = `repeat(${cols},minmax(280px,1fr))`;
+    pairs.forEach((p, i) => makePanel(p[0], p[1], i));
+
+    /* font-size slider */
+    document.getElementById('fSize').addEventListener('input', e => {
+      document.documentElement.style.setProperty('--fs', `${e.target.value}px`);
+      document.getElementById('fsVal').textContent = e.target.value;
+    });
+  </script>
+</body>
+</html>
